@@ -1,6 +1,6 @@
 # CareerSage
 
-CareerSage is an AI-powered chatbot designed to provide personalized career advice. It analyzes resumes, suggests job opportunities based on user skills and experiences, and offers valuable interview tips. Leveraging SerpApi, CareerSage fetches and scrapes career-related articles, building a rich knowledge base for delivering expert-backed career guidance. With integration from reputable career advice books and the Blog Chatbot feature, CareerSage ensures comprehensive support for career navigation.
+CareerSage is an AI-powered chatbot designed to provide personalized career advice. It analyzes resumes, suggests job opportunities based on user skills and experiences, and offers valuable interview tips. Leveraging SerpApi, CareerSage fetches and scrapes career-related articles, building a rich knowledge base for delivering expert-backed career guidance. With integration from reputable career advice books, CareerSage ensures comprehensive support for career navigation.
 
 ## Use Case
 
@@ -13,18 +13,17 @@ CareerSage delivers accessible, personalized, and data-driven career guidance, h
 
 ## Technologies
 
-- **OpenAI’s GPT models**
 - **Gemini Model**
 - **LangChain**
 - **Streamlit**
 
 ## Workflow
 
-1. **Generate Vector Embeddings**: Use OpenAI/Gemini embeddings in LangChain.
+1. **Generate Vector Embeddings**: Use Gemini embeddings in LangChain.
 2. **Store Vector Embeddings**: Save them in the Faiss Vector Database.
 3. **Fetch Relevant Chunk**: Retrieve the most relevant chunk of the source based on user input using vector embeddings.
 4. **Create Prompt Template**: Design a template for prompts.
-5. **Generate Response**: Send user input and relevant chunk to ChatGPT.
+5. **Generate Response**: Send user input and relevant chunk to Gemini.
 6. **Display Chat**: Show the conversation on the Streamlit dashboard.
 
 ## Applications
@@ -39,7 +38,12 @@ CareerSage delivers accessible, personalized, and data-driven career guidance, h
 
 1. Clone the repository: `git clone https://github.com/sanikamal/career-advisor-chatbot.git`
 2. Install dependencies: `pip install -r requirements.txt`
-3. Run the application: `streamlit run app.py`
+3. Set the API keys for SerpApi and Gemini in your environment variables. Add the following lines to your `.env` file:
+   ```
+   SERPAPI_API_KEY=your_serpapi_api_key_here
+   GOOGLE_API_KEY=your_google_api_key_here
+   ```
+4. Run the application: `streamlit run app.py`
 
 ## Contributing
 
@@ -47,7 +51,7 @@ Contributions are welcome! Please read the [Contributing Guidelines]() before ma
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE]() file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 
 Feel free to reach out with any questions or feedback. Happy job hunting!
