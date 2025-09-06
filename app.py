@@ -1,3 +1,14 @@
+import asyncio
+import threading
+
+# Fix for: RuntimeError: There is no current event loop in thread 'ScriptRunner.scriptThread'
+if threading.current_thread() is threading.main_thread():
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+else:
+    asyncio.set_event_loop(asyncio.new_event_loop())
+
+
+
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_google_genai import ChatGoogleGenerativeAI
 import google.generativeai as genai
@@ -11,39 +22,59 @@ from langchain_community.vectorstores import FAISS
 from langchain_community.utilities import SerpAPIWrapper
 
 import streamlit as st
-from dotenv import load_dotenv
 import emoji
 
 import os
 from itertools import zip_longest
 
+# Check for the API keys using Streamlit's secrets management
+if "GOOGLE_API_KEY" not in st.secrets:
+    st.error("Google API key not found in secrets.toml. Please add it to .streamlit/secrets.toml")
+    st.stop() # Stops the script if the key is missing
 
-load_dotenv()
+if "SERPAPI_API_KEY" not in st.secrets:
+    st.error("SerpAPI key not found in secrets.toml. Please add it to .streamlit/secrets.toml")
+    st.stop() # Stops the script if the key is missing
 
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+
+# Retrieve the keys from Streamlit secrets
+google_api_key = st.secrets["GOOGLE_API_KEY"]
+serpapi_api_key = st.secrets["SERPAPI_API_KEY"]
+
+# Configure genai with the key from secrets
+genai.configure(api_key=google_api_key)
 
 
 st.title(f"Career Advisor Chatbot {emoji.emojize(':robot:')}")
 
-global vectors
 # Define your directory containing PDF files here
 pdf_dir = 'pdf'
 
 if "pdf_texts" not in st.session_state:
     temp_pdf_texts = []
     with st.spinner("Creating a Database..."):
-        for file in os.listdir(pdf_dir):
-            if file.endswith('.pdf'):
-                loader = PyPDFLoader(os.path.join(pdf_dir, file))
-                documents = loader.load()
-                text = " ".join([doc.page_content for doc in documents])
-                temp_pdf_texts.append(text)
+        try:
+            for file in os.listdir(pdf_dir):
+                if file.endswith('.pdf'):
+                    loader = PyPDFLoader(os.path.join(pdf_dir, file))
+                    documents = loader.load()
+                    text = " ".join([doc.page_content for doc in documents])
+                    temp_pdf_texts.append(text)
+        except FileNotFoundError:
+            st.error(f"Error: The directory '{pdf_dir}' was not found. Please make sure it exists and contains your PDF files.")
+            st.stop()
+        
         st.session_state["pdf_texts"] = temp_pdf_texts
         pdf_list = list(st.session_state["pdf_texts"])
         pdfDatabase = " ".join(pdf_list)
         splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
         chunks = splitter.split_text(pdfDatabase)
-        embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+        
+        # Explicitly pass the API key from secrets
+        embeddings = GoogleGenerativeAIEmbeddings(
+            model="models/embedding-001",
+            google_api_key=google_api_key
+        )
 
         if "vectors" not in st.session_state: 
             vectors = FAISS.from_texts(chunks, embeddings)
@@ -80,12 +111,18 @@ def get_response(history,user_message,temperature=0):
     "hl": "en",
     }
 
-    search = SerpAPIWrapper(params=params)
+    # Pass the SerpAPI key from secrets to the wrapper
+    search = SerpAPIWrapper(params=params, serpapi_api_key=serpapi_api_key)
 
     web_knowledge=search.run(user_message)
 
 
-    gemini_model = ChatGoogleGenerativeAI(model="gemini-pro", temperature=temperature)
+    # **FIXED**: Using the updated, stable model name
+    gemini_model = ChatGoogleGenerativeAI(
+        model="gemini-1.5-pro", # Use a stable model name
+        temperature=temperature,
+        google_api_key=google_api_key
+    )
 
     conversation_with_summary = LLMChain(
         llm=gemini_model,
@@ -144,10 +181,3 @@ with st.expander("Chat History", expanded=True):
         for i in range(len(st.session_state["generated"])):
             st.markdown(emoji.emojize(f":speech_balloon: **User {str(i)}**: {st.session_state['past'][i]}"))
             st.markdown(emoji.emojize(f":robot: **Assistant {str(i)}**: {st.session_state['generated'][i]}"))
-
-
-# what factors should I keep in mind before deciding a career?
-
-# What are the growing sectors of global economy ?
-
-# If I decide to be a software engineer what would My salary be ?
