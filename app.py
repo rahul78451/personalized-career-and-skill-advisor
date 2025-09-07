@@ -1,3 +1,16 @@
+print("Starting app...")
+
+try:
+    # Put your main code here
+    import rich  # test import
+    print("rich imported")
+    
+    # continue your app logic here
+except Exception as e:
+    print("Startup error:", e)
+
+
+
 import asyncio
 import threading
 
