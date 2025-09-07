@@ -61,7 +61,7 @@ mdurl==0.1.2
 multidict==6.0.5
 mypy-extensions==1.0.0
 numpy==1.26.4
-olefile==0.47
+olefile
 orjson==3.10.6
 packaging==24.1
 pandas==2.2.2
@@ -113,6 +113,7 @@ watchdog==4.0.1
 xlrd==1.2.0
 XlsxWriter==3.2.0
 yarl==1.9.4
+
 
 
 
