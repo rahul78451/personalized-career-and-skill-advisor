@@ -1,3 +1,12 @@
+import streamlit as st
+import pygments
+import rich
+import markdown_it_py
+import mdurl
+
+st.title("✅ All dependencies installed correctly!")
+
+
 print(">>> Starting app.py")
 
 try:
