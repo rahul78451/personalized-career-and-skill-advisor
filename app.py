@@ -1,3 +1,7 @@
+with open("data.json") as f:
+    data = json.load(f)
+
+
 print("Starting app...")
 
 try:
