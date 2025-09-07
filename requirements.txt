@@ -1,35 +1,27 @@
-# Fix build issues and speed up deployment
 --prefer-binary
 pip>=24
 setuptools>=70
-wheel>=0.43.0
+wheel>=0.46.0
 
-# Streamlit core
+# Core Streamlit app dependencies
 streamlit==1.37.0
 pygments==2.19.2
 rich==14.1.0
 markdown-it-py==2.2.0
 mdurl==0.1.2
 
-# Replace heavy packages with reliable versions
-numpy==1.24.4
+# Heavy packages pinned to stable, wheel-supported versions
+numpy==1.24.2
 pandas==1.5.3
 pyarrow==12.0.1
 orjson==3.9.10
 
-# Fix old olefile version issue
+# Misc / document parsing
 olefile
 
-# Add your other packages here (optional)
-aiohttp==3.10.0
-attrs==23.2.0
-beautifulsoup4==4.8.2
-certifi==2024.7.4
-charset-normalizer==3.3.2
-docx2txt==0.8
-google-auth==2.32.0
-langchain==0.2.11
-langchain-core==0.2.26
-protobuf==4.25.4
-requests==2.32.3
-tqdm==4.66.4
+# Optional: only include these if your app uses them
+# docx2txt==0.8
+# pypdf==4.3.1
+# python-pptx==0.6.23
+# pdfminer.six==20201018
+# beautifulsoup4==4.12.2
