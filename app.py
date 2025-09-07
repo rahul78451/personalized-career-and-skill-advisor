@@ -14,8 +14,16 @@ except Exception as e:
 
 
 
-with open("data.json") as f:
-    data = json.load(f)
+import os
+import json
+
+data = {}
+if os.path.exists("data.json"):
+    with open("data.json") as f:
+        data = json.load(f)
+else:
+    print("⚠️ data.json not found. Using empty data.")
+
 
 
 print("Starting app...")
