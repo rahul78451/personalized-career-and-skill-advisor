@@ -54,7 +54,7 @@ langchain-google-genai==1.0.8
 langchain-text-splitters==0.2.2
 langsmith==0.1.95
 lxml==5.2.2
-markdown-it-py==3.0.0
+markdown-it-py==2.2.0
 MarkupSafe==2.1.5
 marshmallow==3.21.3
 mdurl==0.1.2
@@ -76,7 +76,7 @@ pycryptodome==3.20.0
 pydantic==2.8.2
 pydantic_core==2.20.1
 pydeck==0.9.1
-Pygments==2.18.0
+Pygments==2.19.2
 pyparsing==3.1.2
 pypdf==4.3.1
 python-dateutil==2.9.0.post0
@@ -87,7 +87,7 @@ PyYAML==6.0.1
 referencing==0.35.1
 regex==2024.7.24
 requests==2.32.3
-rich==13.7.1
+rich==14.1.0
 rpds-py==0.19.1
 rsa==4.9
 six==1.12.0
@@ -113,4 +113,5 @@ watchdog==4.0.1
 xlrd==1.2.0
 XlsxWriter==3.2.0
 yarl==1.9.4
+
 
