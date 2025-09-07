@@ -1,9 +1,3 @@
-import os
-import json
-
-data = {}
-if os.path.exists("data.json"):
-    with open("data.json") as f:
-        data = json.load(f)
-else:
-    print("⚠️ Warning: data.json not found. Proceeding with empty data.")
+{
+  "sample_key": "sample_value"
+}
