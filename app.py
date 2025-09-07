@@ -1,3 +1,19 @@
+print(">>> Starting app.py")
+
+try:
+    import pygments
+    import rich
+    import markdown_it_py
+    import mdurl
+    print(">>> All imports successful!")
+
+    # Your app logic starts below this
+except Exception as e:
+    print(">>> Startup error:", e)
+    raise
+
+
+
 with open("data.json") as f:
     data = json.load(f)
 
