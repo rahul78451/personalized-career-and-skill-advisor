@@ -14,15 +14,31 @@ except Exception as e:
 
 
 
-import os
-import json
+import os, json
 
+print(">>> Starting app.py")
+
+try:
+    import pygments, rich, markdown_it_py, mdurl
+    print(">>> Imports OK!")
+except Exception as e:
+    print(">>> Import error:", e)
+    raise
+
+# Handle missing data.json gracefully
 data = {}
 if os.path.exists("data.json"):
-    with open("data.json") as f:
-        data = json.load(f)
+    try:
+        with open("data.json") as f:
+            data = json.load(f)
+        print(">>> data.json loaded successfully")
+    except Exception as e:
+        print(">>> Error loading data.json:", e)
 else:
-    print("⚠️ data.json not found. Using empty data.")
+    print(">>> data.json not found — continuing with empty data")
+
+print(">>> App initialization passed — entering main logic")
+
 
 
 
